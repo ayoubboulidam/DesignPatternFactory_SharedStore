@@ -1,30 +1,31 @@
 package ayb.JAVAProjects.myfilechecker;
 
-import ayb.JAVAProjects.myfilechecker.checker.FileChecker;
-import ayb.JAVAProjects.myfilechecker.checker.FileCheckerFactory;
-import ayb.JAVAProjects.myfilechecker.checker.OS;
+import ayb.JAVAProjects.myfilechecker.checker.*;
 
 public class App {
     public static void main(String[] args) {
-        String filename = "example.doc1";
-        String directory = "path/to/directory";
-        OS os = OS.WINDOWS; // ou OS.LINUX selon votre système d'exploitation
+        // Example inputs
+        String filename = "example.doc";
+        String directory = "/path/to/directory";
+        OS os = OS.WINDOWS; // Change this to OS.LINUX to test for Linux
 
-        FileChecker fileChecker = FileCheckerFactory.getFileChecker(os);
-
-        if (fileChecker.isValidFile(filename, directory)) {
-            System.out.println("Le fichier est valide.");
+        // Create the appropriate factory based on OS
+        OSAbstractFactory factory;
+        if (os == OS.WINDOWS) {
+            factory = new WindowsFactory();
+        } else if (os == OS.LINUX) {
+            factory = new LinuxFactory();
         } else {
-            System.out.println("Le fichier n'est pas valide.");
-
-
-
-            // Ajoutez des messages pour spécifier pourquoi le fichier n'est pas valide
-            if (os == OS.WINDOWS) {
-                System.out.println("Les fichiers sous Windows doivent avoir l'extension .doc, .docx, .xls ou .xlsx.");
-            } else if (os == OS.LINUX) {
-                System.out.println("Les fichiers sous Linux doivent avoir l'extension .sh, .bin ou .run.");
-            }
+            throw new UnsupportedOperationException("Unsupported OS: " + os);
         }
+
+        // Create the file checker
+        FileChecker fileChecker = factory.createFileChecker();
+
+        // Check if the file is valid
+        boolean isValid = fileChecker.isValidFile(filename, directory);
+
+        // Print the result
+        System.out.println("Is the file valid? " + isValid);
     }
 }
