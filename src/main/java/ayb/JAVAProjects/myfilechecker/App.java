@@ -10,7 +10,7 @@ public class App {
         OS os = OS.WINDOWS; // Change this to OS.LINUX to test for Linux
 
         // Create the appropriate factory based on OS
-        OSAbstractFactory factory;
+        OSFactory factory;
         if (os == OS.WINDOWS) {
             factory = new WindowsFactory();
         } else if (os == OS.LINUX) {

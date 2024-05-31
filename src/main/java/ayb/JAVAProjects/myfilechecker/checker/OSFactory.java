@@ -1,5 +1,5 @@
 package ayb.JAVAProjects.myfilechecker.checker;
 
-public interface OSAbstractFactory {
+public interface OSFactory {
       FileChecker createFileChecker();
 }
